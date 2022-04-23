@@ -1,0 +1,36 @@
+---
+  - hosts: web
+    remote_user: ubuntu
+    become: yes
+    ignore_errors: yes
+    tasks:
+          - name: create a user
+            user:
+                     name: IV
+                     comment: Adedapo Onabajo
+                     
+          - name: create a directory
+            file:
+                     path: /home/ubuntu/Ansiblewashere
+                     state: directory
+                     mode: '0755'
+          - name: create a file
+            file:
+                     path: /home/ubuntu/Ansiblewashere/readme.md
+                     state: touch
+          - name: write into readme.md
+            shell: echo "
+                   First edit on Ansible from IV
+                   " >> /home/ubuntu/Ansiblewashere/readme.md
+          - name: install apache2
+            apt: 
+                     name: apache2
+                     state: present
+          - name: start apache2
+            service:
+                     name: apache2
+                     state: started
+          - name: write into index.html
+            shell: echo "
+                   <h1> HELLO IV </h1>
+                   " > /var/www/html/index.html
